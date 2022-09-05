@@ -5,6 +5,7 @@ const Navbar = () => {
     <>
 
     <div className="navbar">
+    {/* <img src="/logo.png" alt="logo" /> */}
     <h2>XELP TECHNOLOGIES </h2>
 
 
