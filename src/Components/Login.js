@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {React,useState} from 'react';
 import { useNavigate} from "react-router-dom";
-import Body from './Body';
+
 
 const Login = () => {
   
@@ -13,24 +13,37 @@ const Login = () => {
 
     async function getCredentials(e){
       e.preventDefault()
-
-      const response = await axios.post('http://localhost:4000/login', {
+      console.log(email)
+      console.log(password)
+      try {
+        const response = await axios.post('http://localhost:4000/login', {
             "email": email,
             "password": password
         })        
-        console.log(response.data)
+        console.log(response)
 
-        if (response.data == 1){
-
+        if (response.status === 200) {
+          console.log("User details are correct")
           navigate('/body')
-          // < Body />
-
+        } else {
+          setError(response.data.message)
         }
-        else{
+      } catch(error) {
+        console.log("Error in logging in", error)
+        setError(error.response.data.message)
+      }
+      
+
+        // if (response.data == 1){
+
+        //   navigate('/body')
+
+        // }
+        // else{
           
-          setError("Incorrect password")
+        //   setError("Incorrect password")
 
-        }
+        // }
     }
 
 
@@ -47,12 +60,12 @@ const Login = () => {
         <form >
 
 
-            <label for="email" class="lbl">Email</label><br/>
-            <input type="text" class="inp"  required name="email" onChange={(e)=>setEmail(e.target.value)}/><br/>
+            <label htmlFor="email" className="lbl">Email</label><br/>
+            <input type="text" className="inp"  required name="email" onChange={(e)=>setEmail(e.target.value)}/><br/>
 
 
-            <label for="password" class="lbl">Password</label><br/>
-            <input type="password" class="inp"  required name="password" onChange={(e)=>setPassword(e.target.value)}/><br/>
+            <label htmlFor="password" className="lbl">Password</label><br/>
+            <input type="password" className="inp"  required name="password" onChange={(e)=>setPassword(e.target.value)}/><br/>
 
             <button className="signup-button" onClick={getCredentials}>LOGIN</button>
 

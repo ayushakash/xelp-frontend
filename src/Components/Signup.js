@@ -34,8 +34,8 @@ const Signup = () => {
 
                 if (validateMobile(mobile)) {
 
-                    navigate('/login')
                     sendToDatabase();
+                    
 
                 } else {
 
@@ -54,16 +54,23 @@ const Signup = () => {
         }
 
     }
-    async function sendToDatabase() {                                                        //this function sends data to database
+    async function sendToDatabase() {       
+        
+        try {
+            const response = await axios.post('http://localhost:4000/signup', {
+                "name": name,
+                "email": email,
+                "mobile": mobile,
+                "password": password
+            }) 
+            console.log(response);
 
-        const response = await axios.post('http://localhost:4000/signup', {
-            "name": name,
-            "email": email,
-            "mobile": mobile,
-            "password": password
-        }) 
-        console.log(response);
+            navigate('/login')
 
+        } catch(error) {
+            console.log(error)
+            setError(error.response.data.message)
+        }
     }
 
     return (
@@ -74,44 +81,44 @@ const Signup = () => {
 
             <form onSubmit={(e) => e.preventDefault()}>
 
-                <label for="name" class="lbl">Name</label><br/>
+                <label htmlFor="name" className="lbl">Name</label><br/>
                 <input
                     type="text"
-                    class="inp"
+                    className="inp"
                     required="required"
                     name="name"
                     onChange={(e) => setName(e.target.value)}/><br/>
 
-                <label for="email" class="lbl">Email</label><br/>
+                <label htmlFor="email" className="lbl">Email</label><br/>
                 <input
                     type="text"
-                    class="inp"
+                    className="inp"
                     required="required"
                     name="email"
                     onChange={(e) => setEmail(e.target.value)}/><br/>
 
-                <label for="mobile" class="lbl">Mobile Number</label><br/>
+                <label htmlFor="mobile" className="lbl">Mobile Number</label><br/>
                 <input
                     type="text"
-                    class="inp"
+                    className="inp"
                     required="required"
                     name="phone"
                     maxLength="10"
                     onChange={(e) => setMobile(e.target.value)}/><br/>
 
-                <label for="password" class="lbl">Password</label><br/>
+                <label htmlFor="password" className="lbl">Password</label><br/>
                 <input
                     type="password"
-                    class="inp"
+                    className="inp"
                     required="required"
                     name="password"
                     minLength="8"
                     onChange={(e) => setPassword(e.target.value)}/><br/>
 
-                <label for="confirmPassword" class="lbl">Confirm Password</label><br/>
+                <label htmlFor="confirmPassword" className="lbl">Confirm Password</label><br/>
                 <input
                     type="password"
-                    class="inp"
+                    className="inp"
                     required="required"
                     name="confirmPassword"
                     minLength="8"
